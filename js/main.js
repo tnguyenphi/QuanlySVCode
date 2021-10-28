@@ -58,12 +58,28 @@ function layThongTinSV() {
     // Tên SV: Kiểm tra rỗng , kiểm tra ký tự chữ
     isValid &= validation.checkEmpty(ten,"Tên SV không được để trống","spanTenSV") && validation.checkName(ten,"Tên SV Phải là kiểu chữ","spanTenSV");
 
+    //Email: Kiểm tra rỗng, kiểm tra định dạng email
+    isValid &= validation.checkEmpty(email,"Email không được để trống","spanEmailSV") && validation.checkEmail(email,"Email phải đúng định dạng","spanEmailSV");
+    //Password: 
+    isValid &= validation.checkEmpty(pass,"Password không được để trống","spanMatKhau") && validation.checkPass(pass,"Mật khẩu phải đúng định dạng","spanMatKhau") ;
+
+    // Khóa học: Kiểm tra người dùng có chọn khóa học ko
+    
+    isValid &= validation.checkSelect("khSV","Chọn Khóa học","spanKhoaHoc") 
+
+    // Điểm khóa học: Kiểm tra rỗng, định dạng điểm (Kiểu số, 0-10)
+    isValid &= validation.checkEmpty(toan,"Điểm toán không được để trống","spanToan") && validation.checkScore(toan,"Điểm toán phải là số từ 0 đến 10","spanToan");
+
+    isValid &= validation.checkEmpty(hoa,"Điểm Hóa không được để trống","spanHoa") && validation.checkScore(toan,"Điểm Hóa phải là số từ 0 đến 10","spanHoa");
+
+    isValid &= validation.checkEmpty(ly,"Điểm Lý không được để trống","spanLy") && validation.checkScore(ly,"Điểm Lý phải là số từ 0 đến 10","spanLy");
+    
 
     if (isValid){
     //Gọi lớp SinhVien ra để sử dụng
     // tạo thể hiện(instance) lớp đối tượng SinhVien
     // new tenLop
-    var sv = new SinhVien(ma.trim(), ten, email, pass, date, khoa, toan, hoa, ly);
+    var sv = new SinhVien(ma.trim(), ten, email, pass, date, khoa, Number(toan), Number(hoa), Number(ly));
     sv.dtb = sv.tinhDTB();
     // console.log(sv);
     // console.table(sv)
@@ -158,4 +174,19 @@ function capNhat(){
     dssv.capNhatSV(sv);
     setLocalStorage(dssv.mangSV);
     hienThiTable(dssv.mangSV);
+}
+
+
+getELE("btnSearch").onclick = function (){
+    var tuKhoa = getELE("txtSearch").value;
+    var mangTK = dssv.searchName(tuKhoa);
+    hienThiTable(mangTK);
+}
+
+// Người dùng gõ input thì lập tức search
+//keypress, keydown, keyup
+getELE("txtSearch").onkeyup = function(){
+    var tuKhoa = getELE("txtSearch").value;
+    var mangTK = dssv.searchName(tuKhoa);
+    hienThiTable(mangTK);
 }

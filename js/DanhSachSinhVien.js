@@ -59,3 +59,25 @@ function DanhSachSinhVien(){
         }
     }
 }
+
+//prototype=> thêm phương thức thuộc tính mới cho 1 lớp đối tượng đã được xây dựng từ trước mà ko cần sửa trực tiếp : Tránh rủi ro khi code mới sai ảnh hưởng tới code cũ
+//prototype (ES5)
+
+DanhSachSinhVien.prototype.searchName = function (tuKhoa){
+    var mangTK = [];
+    // từ khóa be => phải tìm đc sinh viên có chưa từ be (bé Ben Bé BÉ)
+    // chuyển từ khóa về kiểu chữ thường và xóa khoảng trắng
+    var tuTK = tuKhoa.trim().toLowerCase()
+    this.mangSV.map(function(sv){
+        //chuyển tên sv về kiểu chữ thường
+        var ten = sv.tenSV.toLowerCase();
+
+        // kiểm tra tên sv có chứa từ khóa hay không
+        if (ten.indexOf(tuTK) > -1){
+            console.log("Tìm thấy tên sv");
+            //nếu tìm thấy thì lưu sv vào trong mangTK
+            mangTK.push(sv);
+        }
+    });
+    return mangTK;
+}
